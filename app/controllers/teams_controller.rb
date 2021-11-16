@@ -56,7 +56,7 @@ class TeamsController < ApplicationController
         old_leader.update(keep_team_id: nil)
         team.update(owner_id: member.id)
         member.update(keep_team_id: team.id)
-
+        TeamMailer.team_mailer(member, team.name).deliver
       end
       redirect_to team_path(team.id)
 
