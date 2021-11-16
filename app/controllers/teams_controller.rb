@@ -47,6 +47,21 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def make_leader
+
+      member = User.find(params[:member_id])
+      team = Team.find(params[:team_id])
+      old_leader = User.find(team.owner_id)
+      if current_user == old_leader
+        old_leader.update(keep_team_id: nil)
+        team.update(owner_id: member.id)
+        member.update(keep_team_id: team.id)
+        TeamMailer.team_mailer(member, team.name).deliver
+      end
+      redirect_to team_path(team.id)
+
+  end
+
   private
 
   def set_team
