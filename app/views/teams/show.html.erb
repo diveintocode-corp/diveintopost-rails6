@@ -10,7 +10,7 @@
               <%= image_tag default_img(@team.icon_url), class: 'img' %><br>
               <%= @team.name %>
             </div>
-            <%= link_to I18n.t('views.messages.edit_team'), edit_team_path(@team), class: 'btn btn-success btn-block mt-3' %>
+            <%= link_to I18n.t('views.messages.edit_team'), edit_team_path(@team), class: 'btn btn-success btn-block mt-3' if @team.owner == current_user %>
           </div>
 
           <div class="col-md-8">
@@ -38,15 +38,17 @@
               <table class="table">
                 <tbody>
                   <% @team.assigns.each do |assign| %>
-                    <tr>
-                      <td><%= image_tag 'default.jpg', size: '40x40' %></td>
-                      <td><%= assign.user.email %></td>
-                      
-                      <%if @team.owner == current_user %>
-                      <td><%= link_to I18n.t('views.button.makeleader'), make_leader_path(assign.user.id, @team.id), class: 'btn btn-sm btn-primary' %></td>
-                      <%end%>
-                      <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
-                    </tr>
+                    <% if assign.user != @team.owner %>
+                      <tr>
+                        <td><%= image_tag 'default.jpg', size: '40x40' %></td>
+                        <td><%= assign.user.email %></td>
+                        
+                        <%if @team.owner == current_user %>
+                        <td><%= link_to I18n.t('views.button.makeleader'), make_leader_path(assign.user.id, @team.id), class: 'btn btn-sm btn-primary' %></td>
+                        <%end%>
+                        <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' if @team.owner == current_user || assign.user == current_user %></td>
+                      </tr>
+                      <% end %>
                   <% end %>
                 </tbody>
               </table>
