@@ -32,9 +32,7 @@
           <li class="nav-item has-treeview menu-open">
             <div class="container nav-link">
               <div class="row">
-                <div class="col">
-                  <%= link_to '', agenda, method: :delete, data: {confirm: "Are you sure ?"} ,class:'fa-circle fas'%>
-                </div>
+                <div class="col-8">
                   <a href="#">
                     <i class="fa-circle-o nav-icon bg-light"></i>
                     <p class="px-3">
@@ -42,6 +40,11 @@
                       <i class="right fa fa-angle-left"></i>
                     </p>
                   </a>
+                </div>
+
+                    <div class="col-4 ">
+                      <%= link_to ' delete', agenda, method: :delete, data: {confirm: "Are you sure ?"} ,class:'fa-circle fas'%>
+                    </div>
               </div>
             </div>
             <ul class="nav nav-treeview" style="display: block;">
