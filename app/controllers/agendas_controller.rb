@@ -21,7 +21,7 @@ class AgendasController < ApplicationController
     end
   end
   def destroy
-    if current_user == @agenda.team.owner or current_user == @agenda.user
+    if current_user == @agenda.team.owner 
       @agenda.team.users.each do |user|
           AgendaMailer.with(agenda: @agenda).agenda_mailer(user).deliver
       end
