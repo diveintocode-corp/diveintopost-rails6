@@ -5,6 +5,7 @@
     <div class="card">
       <div class="card-title p-1">
         <%= I18n.t('views.messages.recent_posts') %>
+        <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
       </div>
       <div class="card-body p-0">
         <table class="table">
