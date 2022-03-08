@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   root 'statics#top'
   get :dashboard, to: 'teams#dashboard'
-
+  get "/make_member_leader/:member_id/:team_id", to: "teams#make_leader", as: "make_leader"
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
     passwords: 'users/passwords'
   }
   resource :user
-  
+
   resources :teams do
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do
