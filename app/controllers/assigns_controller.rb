@@ -22,6 +22,7 @@ class AssignsController < ApplicationController
   end
 
   private
+
   def assign_params
     params[:email]
   end
@@ -31,8 +32,8 @@ class AssignsController < ApplicationController
       I18n.t('views.messages.cannot_delete_the_leader')
     elsif Assign.where(user_id: assigned_user.id).count == 1
       I18n.t('views.messages.cannot_delete_only_a_member')
-    elsif assigned_user == current_user && current_user == assign.team.owner
-      I18n.t('views.views.messages.cannot_delete_member_4_some_reason')
+    elsif ( current_user.id != assign.team.owner.id ) && ( current_user.id != assigned_user.id )
+      I18n.t('views.messages.cannot_delete_member_some_reason')
     elsif assign.destroy
       set_next_team(assign, assigned_user)
       I18n.t('views.messages.delete_member')
