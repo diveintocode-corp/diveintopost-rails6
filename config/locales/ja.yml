@@ -216,6 +216,8 @@ ja:
       cannot_delete_only_a_member: 'このユーザーはこのチームにしか所属していないため、削除できません。'
       cannot_delete_member_some_reason: '他のユーザーはリーダー意外削除できません。'
       delete_member: 'メンバーを削除しました。'
+      delete_agenda: 'アジェンダを削除しました。'
+      cannot_delete_agenda: 'なんらかの原因で、アジェンダを削除できませんでした。'
       delete_agenda_info: 'アジェンダが削除されました。'
       cannot_delete_member_4_some_reason: 'なんらかの原因で、削除できませんでした。'
       failed_to_post: '投稿できませんでした...'
