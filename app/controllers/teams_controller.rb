@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy give_owner]
 
   def index
     @teams = Team.all
@@ -15,7 +15,9 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+    redirect_to @team if current_user != @team.owner
+  end
 
   def create
     @team = Team.new(team_params)
@@ -39,12 +41,24 @@ class TeamsController < ApplicationController
   end
 
   def destroy
+    return unless current_user.keep_team_id? || current_user.id?
+
     @team.destroy
     redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
   end
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  def give_owner
+    @team.update(owner_id: params[:user_id])
+    if @team.save
+      GiveMailer.give_owner_mail(@team.owner.email).deliver
+      redirect_to @team, notice: I18n.t('views.messages.give_owner_success')
+    else
+      redirect_to team_url, notice: I18n.t('views.messages.give_owner_4_some_reson')
+    end
   end
 
   private
